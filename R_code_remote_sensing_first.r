@@ -108,7 +108,77 @@ plot(p224r63_2011$B3_sre, col=clr)
 clnir <- colorRampPalette(c("red","orange","yellow")) (100)
 plot(p224r63_2011$B4_sre, col=clnir)
 
+###day4
+#visualizzazione dati 
+# prima cosa: richiamo il pacchetto raster con funzione library(raster)
+library(raster)
+#una volta richiamato il pacchetto raster, scelgo la cartella di lavoro con funzione setwd
+setwd("C:/lab/") # Windows
+#inserisco l'immagine satellitare che voglio visualizzare tramite la funzione brick
+p224r63_2011<-brick("p224r63_2011_masked.grd") #la funzione brick permette di importare dati dall'esterno
+
+# Bande Landsat
+# B1: blu
+# B2: verde
+# B3: rosso
+# B4: infrarosso vicino
+# B5: infrarosso medio
+# B6: infrarosso termico
+# B7: infrarosso medio
+
+#RGB 
+#ogni dispositivo elettronico utilizza lo schema RGB (red,green,blue) per la visualizzazione dei colori 
+#avendo questo sistema RGB possiamo visualizzare le immagini utilizzando 3 bande del satellite landsat 
+#associo quindi le bande dei colori corrispondenti
+#R3
+#G2
+#B1
+#la funzione per visualizzare questo schema è plotRGB
+plotRGB(p224r63_2011, r=3,g=2,b=1, stretch="Lin")
+#nell'argomento della funzione devo indicare l'immagine che voglio usare, i colori e le bande corrispondenti e la funzione stretch
+#la funzione stretch serve a visualizzare tutti i valori intermedi 
+#l'immagine che otteniamo è un'immagine a colori naturali
+
+#posso modificare i colori cambiando l'associazione tra RGB e bande di landsat
+#R4
+#G3
+#B2
+plotRGB(p224r63_2011, r=4,g=3,b=2, stretch="Lin") #ricordo che la vegetazione riflette tantissimo nell'infrarosso
+#inverto la banda 3 con la 4
+plotRGB(p224r63_2011, r=3,g=4,b=2, stretch="Lin")
+#inverto ora la banda 4 e la 2
+plotRGB(p224r63_2011, r=3,g=2,b=4, stretch="Lin")
+#a seconda del montaggio di bande che utilizzo ottengo immagini diverse 
+
+#esercizio: fare un multiframe 2x2 con le 4 bande utilizzate fino ad ora
+par(mfrow=c(2,2)) 
+plotRGB(p224r63_2011, r=3,g=2,b=1, stretch="Lin")
+plotRGB(p224r63_2011, r=4,g=3,b=2, stretch="Lin")
+plotRGB(p224r63_2011, r=3,g=4,b=2, stretch="Lin")
+plotRGB(p224r63_2011, r=3,g=2,b=4, stretch="Lin")
+
+# funzione pdf(): mi permette di salvare l'immagine ottenuta come pdf 
+pdf("il_mio_primo_pdf_con_R.pdf")
+par(mfrow=c(2,2)) 
+plotRGB(p224r63_2011, r=3,g=2,b=1, stretch="Lin")
+plotRGB(p224r63_2011, r=4,g=3,b=2, stretch="Lin")
+plotRGB(p224r63_2011, r=3,g=4,b=2, stretch="Lin")
+plotRGB(p224r63_2011, r=3,g=2,b=4, stretch="Lin")
+dev.off()
+
+#lo stretch può essere anche fatto in maniera non lineare con lo stretch "hist"(histogram)
+plotRGB(p224r63_2011, r=3,g=4,b=2, stretch="Lin") #stretch lineare
+plotRGB(p224r63_2011, r=3,g=4,b=2, stretch="hist") #stretch histogram
+# con questo tipo di stretch più "violento" riesco a vedere immagini più distinte e con maggiori dettagli
+
+# multiframe con 3 immagini: colori naturali, colori falsi e histogram stretch
+par(mfrow=c(3,1))
+plotRGB(p224r63_2011, r=3, g=2, b=1, stretch="Lin")
+plotRGB(p224r63_2011, r=3, g=4, b=2, stretch="Lin")
+plotRGB(p224r63_2011, r=3, g=4, b=2, stretch="hist")
+#i colori che ottengo da questo metodo RGB sono i colori reali delle immagini e di conseguenza non ho una legenda
+
+#installare pacchetto RStoolbox
+install.packages("RStoolbox")
 
 
-
-     
