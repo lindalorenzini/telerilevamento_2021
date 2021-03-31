@@ -181,4 +181,51 @@ plotRGB(p224r63_2011, r=3, g=4, b=2, stretch="hist")
 #installare pacchetto RStoolbox
 install.packages("RStoolbox")
 
+###day5
+#immagine 1988
+# p224r63_1988_masked
+library(raster)
+setwd("C:/lab/") # Windows
+p224r63_2011 <- brick("p224r63_2011_masked.grd")
+
+#set multitemporale
+p224r63_1988 <- brick("p224r63_1988_masked.grd")
+#funzione brick importa un intero set di raster
+p224r63_1988
+#faccio un plot per visualizzare le bande dell'immagine
+plot(p224r63_1988)
+# Bande Landsat
+# B1: blu
+# B2: verde
+# B3: rosso
+# B4: infrarosso vicino
+# B5: infrarosso medio
+# B6: infrarosso termico
+# B7: infrarosso medio
+#plotto ora con il sistema RGB
+plotRGB(p224r63_1988, r=3, g=2, b=1, stretch="Lin")
+plotRGB(p224r63_1988, r=4, g=3, b=2, stretch="Lin")
+
+#confronto ora le due immagini 1988 e 2011
+par(mfrow=c(2,1)) 
+plotRGB(p224r63_1988, r=4, g=3, b=2, stretch="Lin")
+plotRGB(p224r63_2011, r=4, g=3, b=2, stretch="Lin")
+
+par(mfrow=c(2,2)) 
+plotRGB(p224r63_1988, r=4, g=3, b=2, stretch="Lin")
+plotRGB(p224r63_2011, r=4, g=3, b=2, stretch="Lin")
+plotRGB(p224r63_1988, r=4, g=3, b=2, stretch="hist")
+plotRGB(p224r63_2011, r=4, g=3, b=2, stretch="hist")
+
+#salvo il pdf
+pdf("set multitemporale")
+par(mfrow=c(2,2)) 
+plotRGB(p224r63_1988, r=4, g=3, b=2, stretch="Lin")
+plotRGB(p224r63_2011, r=4, g=3, b=2, stretch="Lin")
+plotRGB(p224r63_1988, r=4, g=3, b=2, stretch="hist")
+plotRGB(p224r63_2011, r=4, g=3, b=2, stretch="hist")
+dev.off()
+
+
+
 
