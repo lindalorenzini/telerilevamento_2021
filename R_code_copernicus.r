@@ -23,3 +23,4 @@ plot(albedo, col=cl)
 albedores <- aggregate(albedo, fact=100)
 plot(albedores, col=cl)
 
+install.packages("knitr")
