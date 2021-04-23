@@ -29,3 +29,27 @@ sun <- brick("sun.png")
 sunc <- unsuperClass(sun, nClasses=3)
 plot(sunc$map)
 
+# Grand Canyon
+# https://landsat.visibleearth.nasa.gov/view.php?id=80948
+
+#definisco i pacchetti di interesse
+library(raster)
+library(RStoolbox)
+#definisco la working directory
+setwd("C:/lab/") # Windows
+
+#inserisco ora l'immagine di interesse con la funzione brick
+gc<-brick("dolansprings_oli_2013088_canyon_lrg.jpg")
+#plotto in RGB con stretch lineare 
+plotRGB(gc, r=1, g=2, b=3, stretch="lin")
+#riplotto con stretch histogram per vedere la differenza 
+plotRGB(gc, r=1, g=2, b=3, stretch="hist")
+#https://cran.r-project.org/web/packages/RStoolbox/RStoolbox.pdf
+#eseguo la classificazione con unsuperClass(), ci permette di discriminare gli elementi della mappa 
+gcc2 <- unsuperClass(gc, nClasses=2)
+plot(gcc2$map)
+#ricampionamento immagine nel caso sia un file troppo pesante 
+#aumento il numero di classi per avere una maggiore discriminazione 
+gcc4 <- unsuperClass(gc, nClasses=4)
+plot(gcc4$map)
+
