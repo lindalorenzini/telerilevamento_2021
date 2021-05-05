@@ -78,4 +78,20 @@ difndvi <- ndvi1 - ndvi2
 cld <- colorRampPalette(c('blue','white','red'))(100) 
 plot(difndvi, col=cld)
 
+#worldwide NDVI
+install.packages("rasterdiv") #for worldwide NDVI
+library(rasterdiv)
+plot(copNDVI)
+#ora voglio togliere dall'immagine tutta la parte che riguarda l'acqua
+#utilizzo la funzione cbiind per cambiare i valori dei pixel che mi interessano
+#pixels con valori 253,254,255 (acqua) devono essere settati come NA
+copNDVI <- reclassify(copNDVI, cbind(253:255, NA))
+plot(copNDVI)
+#ora facciamo il levelplot per vedere la media dei valori dei pixel
+#richiamo il pacchetto rasterVis per utilizzare il levelplot
+library(rasterVis)
+levelplot(copNDVI) #l'immagine mostra i luoghi con maggiore biomassa vegetale 
+
+
+
 
