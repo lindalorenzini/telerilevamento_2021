@@ -44,7 +44,7 @@ ggRGB(defor1, r=1, g=2, b=3, stretch="lin")
 d1c <- unsuperClass(defor1, nClasses=2)
 d1c
 plot(d1c$map)
-#classe 1 foresta amzzonica e classe 2 con campi coltivati e fiume
+#classe 2 foresta amzzonica e classe 1 con campi coltivati e fiume
 #set.seed() permetterebbe di standardizzare i risultati
 
 d2c <- unsuperClass(defor2, nClasses=2)
@@ -67,13 +67,26 @@ s1<-34006+307286
 prop1<-freq(d1c$map)/s1
 prop1
 # value      count
-#[1,] 2.930042e-06 0.09963902
-#[2,] 5.860085e-06 0.90036098
+#[1,] 2.930042e-06 0.09963902 , campi
+#[2,] 5.860085e-06 0.90036098 ,foresta
 
 s2 <- 342726
 prop2 <- freq(d2c$map) / s2
 prop2
 #value     count
-#[1,] 2.917783e-06 0.5231905
-#[2,] 5.835565e-06 0.4768095
+#[1,] 2.917783e-06 0.5231905 ,foresta
+#[2,] 5.835565e-06 0.4768095, campi
 
+#ora creiamo un dataset
+cover<-c("Forest", "Agriculture")
+percent_1992<-c(90.03, 09.96)
+percent_2006<-c(52.31, 47.68)
+#funzione date.frame() mi permette di creare una tabella/dataset
+percentages<-data.frame(cover,percent_1992,percent_2006)
+percentages
+#ora facciamo un grafico utilizzando ggplot
+p1<-ggplot(percentages, aes(x=cover, y=percent_1992, color=cover)) + geom_bar(stat="identity", fill="white")
+p2<-ggplot(percentages, aes(x=cover, y=percent_2006, color=cover)) + geom_bar(stat="identity", fill="white")
+
+#grid.arrange()  funzione che permette di aggregare più grafici nella stessa pagins
+grid.arrange(p1, p2, nrow=1)
