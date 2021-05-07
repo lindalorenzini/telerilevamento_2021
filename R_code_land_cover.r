@@ -90,3 +90,6 @@ p2<-ggplot(percentages, aes(x=cover, y=percent_2006, color=cover)) + geom_bar(st
 
 #grid.arrange()  funzione che permette di aggregare più grafici nella stessa pagins
 grid.arrange(p1, p2, nrow=1)
+
+#in questo modo abbiamo analizzato un'immagine satellitare e abbiamo trasformato l'immagine in dati utilizzabili per analizzare la copertura 
+
