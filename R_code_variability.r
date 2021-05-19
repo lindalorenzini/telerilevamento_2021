@@ -44,3 +44,14 @@ ndvimean3 <- focal(ndvi, w=matrix(1/9, nrow=3, ncol=3), fun=mean)
 plot(ndvimean3)
 clmean<- colorRampPalette(c('blue','green','pink','magenta','orange','brown','red','yellow'))(100) 
 plot(ndvisd3, col=clmean)
+
+ndvisd5 <- focal(ndvi, w=matrix(1/25, nrow=5, ncol=5), fun=sd)
+clsd <- colorRampPalette(c('blue','green','pink','magenta','orange','brown','red','yellow'))(100) # 
+plot(ndvisd5, col=clsd)
+
+#ora prenciamo il nostro sistema multibanda e facciamo una pca sulla prima variabile
+sentpca<- rasterPCA(sent)
+plot(sentpca$map)
+
+summary(sentpca$model)
+
