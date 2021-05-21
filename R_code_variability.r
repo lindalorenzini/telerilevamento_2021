@@ -3,6 +3,11 @@
 #prima di tutto carichiamo le librerie che ci servono 
 library(raster)
 library(RStoolbox)
+library(ggplot2) #per plottare in ggplot
+library(gridExtra) #per plottare i ggplot insieme
+install.packages("viridis")
+library(viridis) #per colorare i ggplot
+
 #una volta caricate le librerie,settiamo la working directory il cui comando cambia da sistema operativo a sistema operativo
 setwd("C:/lab/") # Windows
  
@@ -46,7 +51,7 @@ clmean<- colorRampPalette(c('blue','green','pink','magenta','orange','brown','re
 plot(ndvisd3, col=clmean)
 
 ndvisd5 <- focal(ndvi, w=matrix(1/25, nrow=5, ncol=5), fun=sd)
-clsd <- colorRampPalette(c('blue','green','pink','magenta','orange','brown','red','yellow'))(100) # 
+clsd <- colorRampPalette(c('blue','green','pink','magenta','orange','brown','red','yellow'))(100)  
 plot(ndvisd5, col=clsd)
 
 #ora prenciamo il nostro sistema multibanda e facciamo una pca sulla prima variabile
@@ -54,4 +59,83 @@ sentpca<- rasterPCA(sent)
 plot(sentpca$map)
 
 summary(sentpca$model)
+
+#funzione focal ci permette di calcolare la deviazione standard/media all'interno di un quadrato 3x3 che si sposta sopra i pixel dell'immagine
+
+pc1 <- sentpca$map$PC1
+#esercizio: calcolo dev. standard di pc1 tramite la funzione focal
+pc1sd5<-focal(pc1, w=matrix (1/25, nrow=5, ncol=5), fun=sd)
+clsd <- colorRampPalette(c('blue','green','pink','magenta','orange','brown','red','yellow'))(100)
+plot(pc1sd5, col=clsd)
+#l'immagine rappresenta la diversità presente nell'immagine del ghiacciaio del similaun
+
+#funzione source: ci permette di richiamare un pezzo di codice che abbiamo già fatto
+source("source_test_lezione.r")
+#a questo punto andiamo ad utilizzare la libreria nuova viridis
+#richiamo il codice source_ggplot.r
+dec.off()
+source("source_ggplot.r")
+
+#ora rivediamo il codice passo dopo passo
+#creo una nuova finestra vuota
+ggplot()+
+#a questo punto aggiungo i pezzi al ggplot partendo dalla geometria
+#geom_raster ci permette di creare una sorta di mappa
+geom_raster(pc1sd5, mapping=aes(x=x, y=y, fill=layer))
+
+#https://cran.r-project.org/web/packages/viridis/vignettes/intro-to-viridis.html
+#pacchetto viridis: The package contains eight color scales: “viridis”, the primary choice, and five alternatives with similar properties - “magma”, “plasma”, “inferno”, “civids”, “mako”, and “rocket” -, and a rainbow color map - “turbo”.
+
+#scale_fill_viridis : funzione che mi permette di utilizzare una delle leggende contenute in viridis
+p1<-ggplot() +
+geom_raster(pc1sd5, mapping = aes(x = x, y = y, fill = layer)) +
+scale_fill_viridis()+
+#aggiungo un titolo alla mappa con ggtitle
+ggtitle("Standard deviation of PC1 by viridis colour scale")
+
+#altro ggplot con dentro un'altra scala di colori (magma)
+p2<-ggplot() +
+geom_raster(pc1sd5, mapping = aes(x = x, y = y, fill = layer)) +
+scale_fill_viridis(option="magma")+
+ggtitle("Standard deviation of PC1 by magma colour scale")
+
+#altro ggplot con dentro un'altra scala di colori (inferno)
+p3<-ggplot() +
+geom_raster(pc1sd5, mapping = aes(x = x, y = y, fill = layer)) +
+scale_fill_viridis(option="inferno")+
+ggtitle("Standard deviation of PC1 by inferno colour scale")
+
+#altro ggplot con dentro un'altra scala di colori (plasma)
+p4<-ggplot() +
+geom_raster(pc1sd5, mapping = aes(x = x, y = y, fill = layer)) +
+scale_fill_viridis(option="plasma")+
+ggtitle("Standard deviation of PC1 by plasma colour scale")
+
+#altro ggplot con dentro un'altra scala di colori (civids)
+p5<-ggplot() +
+geom_raster(pc1sd5, mapping = aes(x = x, y = y, fill = layer)) +
+scale_fill_viridis(option="civids")+
+ggtitle("Standard deviation of PC1 by civids colour scale")
+
+#altro ggplot con dentro un'altra scala di colori (mako)
+p6<-ggplot() +
+geom_raster(pc1sd5, mapping = aes(x = x, y = y, fill = layer)) +
+scale_fill_viridis(option="mako")+
+ggtitle("Standard deviation of PC1 by mako colour scale")
+
+#altro ggplot con dentro un'altra scala di colori (rocket)
+p7<-ggplot() +
+geom_raster(pc1sd5, mapping = aes(x = x, y = y, fill = layer)) +
+scale_fill_viridis(option="rocket")+
+ggtitle("Standard deviation of PC1 by rocket colour scale")
+
+#altro ggplot con dentro un'altra scala di colori (turbo)
+p8<-ggplot() +
+geom_raster(pc1sd5, mapping = aes(x = x, y = y, fill = layer)) +
+scale_fill_viridis(option="turbo")+
+ggtitle("Standard deviation of PC1 by turbo colour scale")
+
+#ora vediamo come visualizzarle tutte insieme con grid.arrange
+grid.arrange(p1,p2,p3,p4,p5,p6,p7,p8, nrow=2)
+
 
