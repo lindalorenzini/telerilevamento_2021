@@ -111,11 +111,11 @@ geom_raster(pc1sd5, mapping = aes(x = x, y = y, fill = layer)) +
 scale_fill_viridis(option="plasma")+
 ggtitle("Standard deviation of PC1 by plasma colour scale")
 
-#altro ggplot con dentro un'altra scala di colori (civids)
+#altro ggplot con dentro un'altra scala di colori (cividis)
 p5<-ggplot() +
 geom_raster(pc1sd5, mapping = aes(x = x, y = y, fill = layer)) +
-scale_fill_viridis(option="civids")+
-ggtitle("Standard deviation of PC1 by civids colour scale")
+scale_fill_viridis(option="cividis")+
+ggtitle("Standard deviation of PC1 by cividis colour scale")
 
 #altro ggplot con dentro un'altra scala di colori (mako)
 p6<-ggplot() +
