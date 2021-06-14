@@ -3,6 +3,7 @@
 #1. settare la working directory EN
 setwd("C:/lab/EN") #Windows
 library(raster)
+library(RStoolbox)
 
 # 2. importazione della prima immagine (singola banda)
 
@@ -39,12 +40,19 @@ EN<- stack(import)
 plot(EN,col=cl)
 
 # 8. replicare il plot dell'immagine 1 e 13 usando lo stack
+
 par(mfrow=c(2,1))
 plot(EN$EN_0001, col=cl)
 plot(EN$EN_0013, col=cl)
 
 #9. fare una PCA sulle 13 immagini 
 
+ENpca <- rasterPCA(EN)
+summary(ENpca$model)
+dev.off()
+plotRGB(ENpca$map, r=1, g=2, b=3, stretch="lin")
+
+#10. 
 
 
 
