@@ -31,3 +31,20 @@ plot(EN01, col=cl,main="NO2 gennaio")
 plot(EN13, col=cl,main="NO2 marzo")
 plot(ENdif, col=cl, main="NO2 gennaio-marzo")
 
+#7. importazione di tutto il set e plot 
+
+rlist<-list.files(pattern="EN")
+import <- lapply(rlist,raster)
+EN<- stack(import)
+plot(EN,col=cl)
+
+# 8. replicare il plot dell'immagine 1 e 13 usando lo stack
+par(mfrow=c(2,1))
+plot(EN$EN_0001, col=cl)
+plot(EN$EN_0013, col=cl)
+
+#9. fare una PCA sulle 13 immagini 
+
+
+
+
