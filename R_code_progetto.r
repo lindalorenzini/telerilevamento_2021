@@ -1,7 +1,7 @@
 # Mountain top mining in West Virginia
 
 library(raster)
-setwd("C:/lab/mountaintopmining")
+setwd("C:/lab/mountaintop")
 mining84<-brick("hobet_19840917.jpg") 
 mining96<-brick("hobet_19961004.jpg")
 mining04<-brick("hobet_20040706.jpg")
@@ -27,3 +27,8 @@ plotRGB(mining04, r=3,g=2,b=1, stretch="Lin")
 plotRGB(mining12, r=3,g=2,b=1, stretch="Lin")
 
 
+library(raster)
+setwd("C:/lab/alluvioni")
+giugno<-brick("weuropeflooding_oli_2021167.jpg")
+giugno
+plotRGB(giugno, r=3,g=2,b=1, stretch="Lin")
