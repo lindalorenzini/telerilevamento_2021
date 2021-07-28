@@ -27,6 +27,10 @@ plotRGB(mining96, r=3,g=2,b=1, stretch="Lin")
 plotRGB(mining04, r=3,g=2,b=1, stretch="Lin")
 plotRGB(mining12, r=3,g=2,b=1, stretch="Lin")
 
+mining84<-raster("hobet_19840917.jpg") 
+mining96<-raster("hobet_19961004.jpg")
+mining04<-raster("hobet_20040706.jpg")
+mining12<-raster("hobet_20120920.jpg")
 rlist <- list.files(pattern="hobet")
 rlist
 import <- lapply(rlist,raster)
@@ -34,7 +38,8 @@ import
 TGr <- stack(import)
 plot(TGr)
 levelplot(TGr)
-
-
-levelplot(TGr$hobet_19840917.jpg)
-
+levelplot(TGr$hobet_19840917)
+cl <- colorRampPalette(c("blue","light blue","pink","red"))(100)
+levelplot(TGr, col.regions=cl)
+levelplot(TGr,col.regions=cl, names.attr=c("1984","1996", "2004", "2012"))
+levelplot(TGr,col.regions=cl, main="Hobet coal mine (West Virginia) development",names.attr=c("1984","1996", "2004", "2012"))
