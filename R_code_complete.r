@@ -314,8 +314,11 @@ levelplot(TGr$lst_2000)
 
 #ora voglio capire come abbellire il level plot e come "giocare" sui dati che ho, in questo caso ullo scioglimento dei ghiacci
 cl <- colorRampPalette(c("blue","light blue","pink","red"))(100) #colorRampPalette ci permette di cambiare i colori delle immagini
-levelplot(TGr, col.regions=cl) #nel caso del level plot l'argomento è col.regions e non solo col
-#names.attr argomento della funzione levelplot per nominare gli attributi
+levelplot(TGr, col.regions=cl) 
+#ll grafico grigio sopra l'immagine indica la temperatura, come media della stessa colonnna o riga della griglia di bit.
+#valori bassi di temperatura, indicati da numeri interi di bit, sono rappresentati dal colore blu (sulla Gronelandia)
+#possiamo cambiare i titoli delle immagini con la funzione names.attr (per nominare i singoli attributi)
+#main è l'argomento, quindi nel nostro caso il titolo dellla mappa, messo tra virgolette perchè un testo
 levelplot(TGr,col.regions=cl, names.attr=c("July 2000","July 2005", "July 2010", "July 2015")) #ho rinominato i layer dell'immagine
 #a questo punto posso anche inserire il nome principale della mia immagine/grafico
 levelplot(TGr,col.regions=cl, main="LST variation in time",names.attr=c("July 2000","July 2005", "July 2010", "July 2015"))
@@ -326,7 +329,7 @@ melt_import<-lapply(MeltGreenland, raster)
 melt<-stack(melt_import)
 melt
 levelplot(melt)
-
+#metricsalgebra applicato alle matrici per lo studio di dati temporali, facciamo la sottrazione tra primo e ultimo dato, mettiamo $ per legare uno strato all'altro
 #a questo punto voglio fare la sottrazione fra i dati di due immagini 
 melt_amount <- melt$X2007annual_melt - melt$X1979annual_melt
 clb <- colorRampPalette(c("blue","white","red"))(100)
