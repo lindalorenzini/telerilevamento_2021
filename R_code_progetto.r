@@ -219,15 +219,15 @@ percentages
 #2   Mine          7.7           13.7            9.9           13.9
 
 #generiamo i grafici con ggplot, la sintassi è particolare 
-ggplot(percentages, aes(x=cover, y=percent_1984, color=cover)) + geom_bar(stat="identity", fill="white")
-ggplot(percentages, aes(x=cover, y=percent_1996, color=cover)) + geom_bar(stat="identity", fill="white")
-ggplot(percentages, aes(x=cover, y=percent_2004, color=cover)) + geom_bar(stat="identity", fill="white")
-ggplot(percentages, aes(x=cover, y=percent_2012, color=cover)) + geom_bar(stat="identity", fill="white")
+ggplot(percentages, aes(x=cover, y=percent_1984, fill=cover)) + geom_bar(stat="identity", color="white")
+ggplot(percentages, aes(x=cover, y=percent_1996, fill=cover)) + geom_bar(stat="identity", color="white")
+ggplot(percentages, aes(x=cover, y=percent_2004, fill=cover)) + geom_bar(stat="identity", color="white")
+ggplot(percentages, aes(x=cover, y=percent_2012, fill=cover)) + geom_bar(stat="identity", color="white")
 #associamo i plot generati a un nome
-graf1<- ggplot(percentages, aes(x=cover, y=percent_1984, color=cover)) + geom_bar(stat="identity", fill="white")
-graf2 <- ggplot(percentages, aes(x=cover, y=percent_1996, color=cover)) + geom_bar(stat="identity", fill="white")
-graf3 <- ggplot(percentages, aes(x=cover, y=percent_2004, color=cover)) + geom_bar(stat="identity", fill="white")
-graf4 <- ggplot(percentages, aes(x=cover, y=percent_2012, color=cover)) + geom_bar(stat="identity", fill="white")
+graf1<- ggplot(percentages, aes(x=cover, y=percent_1984, fill=cover)) + geom_bar(stat="identity", color="white")
+graf2 <- ggplot(percentages, aes(x=cover, y=percent_1996, fill=cover)) + geom_bar(stat="identity", color="white")
+graf3 <- ggplot(percentages, aes(x=cover, y=percent_2004, fill=cover)) + geom_bar(stat="identity", color="white")
+graf4 <- ggplot(percentages, aes(x=cover, y=percent_2012, fill=cover)) + geom_bar(stat="identity", color="white")
 #utilizziamo grid.arrange per unire i ggplot ottenuti occorre avare la library gridExtra, otteniamo così i due grafici delle due annate si può così lavorare sui cambiamenti percentuali nel tempo
 grid.arrange(graf1, graf2, graf3, graf4, nrow=1)
 
