@@ -2,25 +2,76 @@
 
 library(raster)
 library(rasterVis)
+library(RStoolbox)
+library(ggplot2)
+library(gridExtra)
 setwd("C:/lab/mountaintopmining")
+
 mining84<-brick("hobet_19840917.jpg") 
 mining96<-brick("hobet_19961004.jpg")
 mining04<-brick("hobet_20040706.jpg")
 mining12<-brick("hobet_20120920.jpg")
+
 #controllo le informazioni sulle singole immagini rasterbrick
 mining84
+#class      : RasterBrick 
+#dimensions : 480, 720, 345600, 3  (nrow, ncol, ncell, nlayers)
+#resolution : 1, 1  (x, y)
+#extent     : 0, 720, 0, 480  (xmin, xmax, ymin, ymax)
+#crs        : NA 
+#source     : C:/lab/mountaintopmining/hobet_19840917.jpg 
+#names      : hobet_19840917.1, hobet_19840917.2, hobet_19840917.3 
+#min values :                0,                0,                0 
+#max values :              255,              255,              255 
 mining96
+#class      : RasterBrick 
+#dimensions : 480, 720, 345600, 3  (nrow, ncol, ncell, nlayers)
+#resolution : 1, 1  (x, y)
+#extent     : 0, 720, 0, 480  (xmin, xmax, ymin, ymax)
+#crs        : NA 
+#source     : C:/lab/mountaintopmining/hobet_19961004.jpg 
+#names      : hobet_19961004.1, hobet_19961004.2, hobet_19961004.3 
+#min values :                0,                0,                0 
+#max values :              255,              255,              255 
 mining04
+#class      : RasterBrick 
+#dimensions : 480, 720, 345600, 3  (nrow, ncol, ncell, nlayers)
+#resolution : 1, 1  (x, y)
+#extent     : 0, 720, 0, 480  (xmin, xmax, ymin, ymax)
+#crs        : NA 
+#source     : C:/lab/mountaintopmining/hobet_20040706.jpg 
+#names      : hobet_20040706.1, hobet_20040706.2, hobet_20040706.3 
+#min values :                0,                0,                0 
+#max values :              255,              255,              255 
 mining12
-# mining84: ho un raster brick in 3 bande (banda1=hobet_19840917.1, banda2= hobet_19840917.2, banda3= hobet_19840917.3)
-#voglio, per esempio, plottare solo la banda 1
+#class      : RasterBrick 
+#dimensions : 480, 720, 345600, 3  (nrow, ncol, ncell, nlayers)
+#resolution : 1, 1  (x, y)
+#extent     : 0, 720, 0, 480  (xmin, xmax, ymin, ymax)
+#crs        : NA 
+#source     : C:/lab/mountaintopmining/hobet_20120920.jpg 
+#names      : hobet_20120920.1, hobet_20120920.2, hobet_20120920.3 
+#min values :                0,                0,                0 
+#max values :              255,              255,              255 
+
+#  dalle info sulle immagini cedo che ho dei raster brick in 3 bande che sono evidenziate dalla voce "names"
+# bande mining84: banda1=hobet_19840917.1 , banda2= hobet_19840917.2 , banda3=  hobet_19840917.3.
+# bande mining96: banda1= hobet_19961004.1, banda2= hobet_19961004.2, banda3= hobet_19961004.3
+# bande mining04: banda1= hobet_20040706.1 , banda2=hobet_20040706.2 , banda3= hobet_20040706.3
+# bande mining12: banda1= hobet_20120920.1, banda2= hobet_20120920.2 , banda3= hobet_20120920.3
+
+#voglio, per esempio, plottare solo una banda di una determinata immagine faccio un plot di un'immagine legata con il $ al nome della banda di interesse
+#esempio plot in una sola banda:
 plot(mining84$hobet_19840917.1)
+
 #per vedere le immagini con i colori della banda del visibile le vado a plottare in RGB
 plotRGB(mining84, r=3,g=2,b=1, stretch="Lin")
 plotRGB(mining96, r=3,g=2,b=1, stretch="Lin")
 plotRGB(mining04, r=3,g=2,b=1, stretch="Lin")
 plotRGB(mining12, r=3,g=2,b=1, stretch="Lin")
-#dopo aver verificato che le immagini sono visualizzate correttamente vado a fare un multiframe 2x2
+
+#dopo aver verificato che le immagini sono visualizzate correttamente vado a fare un multiframe 2x2 con la funzione par
+
 par(mfrow=c(2,2)) 
 plotRGB(mining84, r=3,g=2,b=1, stretch="Lin")
 plotRGB(mining96, r=3,g=2,b=1, stretch="Lin")
