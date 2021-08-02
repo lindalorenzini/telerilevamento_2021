@@ -79,7 +79,6 @@ plotRGB(mining04, r=3,g=2,b=1, stretch="Lin")
 plotRGB(mining12, r=3,g=2,b=1, stretch="Lin")
 
 #dopo aver verificato che le immagini sono visualizzate correttamente vado a fare un multiframe 2x2 con la funzione par()
-
 par(mfrow=c(2,2)) 
 plotRGB(mining84, r=3,g=2,b=1, stretch="Lin")
 plotRGB(mining96, r=3,g=2,b=1, stretch="Lin")
@@ -87,11 +86,6 @@ plotRGB(mining04, r=3,g=2,b=1, stretch="Lin")
 plotRGB(mining12, r=3,g=2,b=1, stretch="Lin")
 
 #time series
-# nel caso delle timeseries si utilizzano dei file raster per cui importo le immagini non con la funzione brick ma con la funzione raster e anche in questo caso le associo a oggetti diversi
-mining84<-raster("hobet_19840917.jpg") 
-mining96<-raster("hobet_19961004.jpg")
-mining04<-raster("hobet_20040706.jpg")
-mining12<-raster("hobet_20120920.jpg")
 
 # per evitare di importare singolarmente i files, creo una lista dei files di interesse 
 rlist <- list.files(pattern="hobet")
@@ -103,8 +97,10 @@ import
 
 TGr <- stack(import)
 plot(TGr)
+
 levelplot(TGr)
 levelplot(TGr$hobet_19840917)
+
 cl <- colorRampPalette(c("blue","light blue","pink","red"))(100)
 levelplot(TGr, col.regions=cl)
 levelplot(TGr,col.regions=cl, names.attr=c("1984","1996", "2004", "2012"))
