@@ -1,12 +1,17 @@
 # Mountain top mining in West Virginia
 
+#richiamo le librerie precedentemente installate 
 library(raster)
 library(rasterVis)
 library(RStoolbox)
 library(ggplot2)
 library(gridExtra)
+
+# stabilisco la working directory con la funzione setwd() che varia da sistema operativo a sistema operativo
+# windows
 setwd("C:/lab/mountaintopmining")
 
+# importo le immagini rasterbrick con la funzione brick() e le associo a oggetti diversi
 mining84<-brick("hobet_19840917.jpg") 
 mining96<-brick("hobet_19961004.jpg")
 mining04<-brick("hobet_20040706.jpg")
@@ -23,6 +28,7 @@ mining84
 #names      : hobet_19840917.1, hobet_19840917.2, hobet_19840917.3 
 #min values :                0,                0,                0 
 #max values :              255,              255,              255 
+
 mining96
 #class      : RasterBrick 
 #dimensions : 480, 720, 345600, 3  (nrow, ncol, ncell, nlayers)
@@ -33,6 +39,7 @@ mining96
 #names      : hobet_19961004.1, hobet_19961004.2, hobet_19961004.3 
 #min values :                0,                0,                0 
 #max values :              255,              255,              255 
+
 mining04
 #class      : RasterBrick 
 #dimensions : 480, 720, 345600, 3  (nrow, ncol, ncell, nlayers)
@@ -43,6 +50,7 @@ mining04
 #names      : hobet_20040706.1, hobet_20040706.2, hobet_20040706.3 
 #min values :                0,                0,                0 
 #max values :              255,              255,              255 
+
 mining12
 #class      : RasterBrick 
 #dimensions : 480, 720, 345600, 3  (nrow, ncol, ncell, nlayers)
@@ -70,22 +78,29 @@ plotRGB(mining96, r=3,g=2,b=1, stretch="Lin")
 plotRGB(mining04, r=3,g=2,b=1, stretch="Lin")
 plotRGB(mining12, r=3,g=2,b=1, stretch="Lin")
 
-#dopo aver verificato che le immagini sono visualizzate correttamente vado a fare un multiframe 2x2 con la funzione par
+#dopo aver verificato che le immagini sono visualizzate correttamente vado a fare un multiframe 2x2 con la funzione par()
 
 par(mfrow=c(2,2)) 
 plotRGB(mining84, r=3,g=2,b=1, stretch="Lin")
 plotRGB(mining96, r=3,g=2,b=1, stretch="Lin")
 plotRGB(mining04, r=3,g=2,b=1, stretch="Lin")
 plotRGB(mining12, r=3,g=2,b=1, stretch="Lin")
+
 #time series
+# nel caso delle timeseries si utilizzano dei file raster per cui importo le immagini non con la funzione brick ma con la funzione raster e anche in questo caso le associo a oggetti diversi
 mining84<-raster("hobet_19840917.jpg") 
 mining96<-raster("hobet_19961004.jpg")
 mining04<-raster("hobet_20040706.jpg")
 mining12<-raster("hobet_20120920.jpg")
+
+# per evitare di importare singolarmente i files, creo una lista dei files di interesse 
 rlist <- list.files(pattern="hobet")
 rlist
+
+# a questo punto importo la lista di files tramite la funzione lapply() che mi permette di applicare una funzione, nel nostro caso la funzione raster, ad una lista di files precedentemente creata, nel nostro caso rlist
 import <- lapply(rlist,raster)
 import
+
 TGr <- stack(import)
 plot(TGr)
 levelplot(TGr)
