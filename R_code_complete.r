@@ -21,7 +21,7 @@
 # My first R code for remote sensing
 
 ###day1
-setwd("C:/lab/") # Windows, permette di scegliere la set working directory
+setwd("C:/lab/") # Windows, permette di scegliere la working directory
 
 # install.packages("raster"), seleziono il pacchetto da cui prendo gli oggetti, in questo caso immagini
 library(raster)
