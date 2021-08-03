@@ -138,7 +138,9 @@ picture3 <- ggRGB(mining04, r=1, g=2, b=3, stretch="lin")
 picture4 <- ggRGB(mining12, r=1, g=2, b=3, stretch="lin")
 grid.arrange(picture1, picture2, picture3, picture4, nrow=2)
 
+# funzione set.seed(): fissa i valori da attribuire ai pixel  
 set.seed(1)
+# funzione rnorm(): normalizza i valori dei pixel fissando la classe scelta
 rnorm(1)
 m84c <- unsuperClass(mining84, nClasses=2)
 m84c
