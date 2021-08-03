@@ -71,20 +71,19 @@ mining12
 # bande mining12: banda1= hobet_20120920.1, banda2= hobet_20120920.2 , banda3= hobet_20120920.3
 
 #per vedere le immagini con i colori della banda del visibile le vado a plottare in RGB
-plotRGB(mining84, r=3,g=2,b=1, stretch="Lin")
-plotRGB(mining96, r=3,g=2,b=1, stretch="Lin")
-plotRGB(mining04, r=3,g=2,b=1, stretch="Lin")
-plotRGB(mining12, r=3,g=2,b=1, stretch="Lin")
+plotRGB(mining84, r=1,g=2,b=3, stretch="Lin")
+plotRGB(mining96, r=1,g=2,b=3, stretch="Lin")
+plotRGB(mining04, r=1,g=2,b=3, stretch="Lin")
+plotRGB(mining12, r=1,g=2,b=3, stretch="Lin")
 
 #dopo aver verificato che le immagini sono visualizzate correttamente vado a fare un multiframe 2x2 con la funzione par()
 par(mfrow=c(2,2)) 
-plotRGB(mining84, r=3,g=2,b=1, stretch="Lin")
-plotRGB(mining96, r=3,g=2,b=1, stretch="Lin")
-plotRGB(mining04, r=3,g=2,b=1, stretch="Lin")
-plotRGB(mining12, r=3,g=2,b=1, stretch="Lin")
+plotRGB(mining84, r=1,g=2,b=3, stretch="Lin")
+plotRGB(mining96, r=1,g=2,b=3, stretch="Lin")
+plotRGB(mining04, r=1,g=2,b=3, stretch="Lin")
+plotRGB(mining12, r=1,g=2,b=3, stretch="Lin")
 
 #time series
-
 # per evitare di importare singolarmente i files, creo una lista dei files di interesse 
 rlist <- list.files(pattern="hobet")
 rlist
