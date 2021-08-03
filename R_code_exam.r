@@ -138,6 +138,8 @@ picture3 <- ggRGB(mining04, r=1, g=2, b=3, stretch="lin")
 picture4 <- ggRGB(mining12, r=1, g=2, b=3, stretch="lin")
 grid.arrange(picture1, picture2, picture3, picture4, nrow=2)
 
+set.seed(1)
+rnorm(1)
 m84c <- unsuperClass(mining84, nClasses=2)
 m84c
 #unsuperClass results
@@ -154,7 +156,7 @@ m84c
 plot(m84c$map)
 
 set.seed(1)
-rnorm(!)
+rnorm(1)
 m96c <- unsuperClass(mining96, nClasses=2)
 m96c
 #unsuperClass results
@@ -171,6 +173,8 @@ m96c
 #values     : 1, 2  (min, max)
 plot(m96c$map)
 
+set.seed(1)
+rnorm(1)
 m04c <- unsuperClass(mining04, nClasses=2)
 m04c
 #unsuperClass results
@@ -187,6 +191,8 @@ m04c
 #values     : 1, 2  (min, max)
 plot(m04c$map)
 
+set.seed(1)
+rnorm(1)
 m12c <- unsuperClass(mining12, nClasses=2)
 m12c
 #unsuperClass results
@@ -219,16 +225,16 @@ prop1
 
 freq(m96c$map)
 #  value  count
-#[1,]     1 298127 foresta
-#[2,]     2  47473 miniera
+#[1,]     1  47473 miniera
+#[2,]     2 298127 foresta
 sum2<- 298127 + 47473
 sum2
 #sum2= 345600
 prop2 <- freq(m96c$map) / sum2
 prop2
 #            value    count
-#[1,] 2.893519e-06 0.862636
-#[2,] 5.787037e-06 0.137364
+#[1,] 5.787037e-06 0.137364 miniera
+#[2,] 2.893519e-06 0.862636 foresta
 
 # 1996-> 86,3% foresta, 13,7% miniera
 
@@ -243,23 +249,24 @@ sum3
 prop3 <- freq(m04c$map) / sum3
 prop3
 #            value      count
-#[1,] 2.893519e-06 0.09905093
-#[2,] 5.787037e-06 0.90094907
+#[1,] 2.893519e-06 0.09905093 miniera
+#[2,] 5.787037e-06 0.90094907 foresta
 
 #2004-> 90,1% foresta, 9,9% miniera
 
 freq(m12c$map)
 # value  count
-#[1,]     1  297548 foresta
-#[2,]     2 48052 miniera
+#[1,]     1 48052 miniera
+#[2,]     2  297548 foresta
+
 sum4<-297548 + 48052
 sum4
 #sum2= 345600
 prop4 <- freq(m12c$map) / sum4
 prop4
 #         value    count
-#[1,] 2.893519e-06 0.8609606 foresta 
-#[2,] 5.787037e-06 0.1390394 miniera
+#[1,] 5.787037e-06 0.1390394 miniera
+#[2,] 2.893519e-06 0.8609606 foresta 
 
 #2012-> 86,1% foresta, 13,9% miniera
 
