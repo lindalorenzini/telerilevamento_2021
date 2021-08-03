@@ -92,16 +92,17 @@ rlist
 import <- lapply(rlist,raster)
 import
 
-TGr <- stack(import)
-plot(TGr)
+# md =  hobet mine development
+hmd <- stack(import)
+plot(hmd)
 
-levelplot(TGr)
-levelplot(TGr$hobet_19840917)
+levelplot(hmd)
+levelplot(hmd$hobet_19840917)
 
 cl <- colorRampPalette(c("blue","light blue","pink","red"))(100)
-levelplot(TGr, col.regions=cl)
-levelplot(TGr,col.regions=cl, names.attr=c("1984","1996", "2004", "2012"))
-levelplot(TGr,col.regions=cl, main="Hobet coal mine (West Virginia) development",names.attr=c("1984","1996", "2004", "2012"))
+levelplot(hmd, col.regions=cl)
+levelplot(hmd,col.regions=cl, names.attr=c("1984","1996", "2004", "2012"))
+levelplot(hmd,col.regions=cl, main="Hobet coal mine (West Virginia) development",names.attr=c("1984","1996", "2004", "2012"))
 
 #land cover: differenze tra 1984 e 2012
 library(raster)
