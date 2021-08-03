@@ -273,9 +273,9 @@ percent_2012 <- c(86.1, 13.9)
 
 percentages <- data.frame(cover, percent_1984, percent_1996, percent_2004, percent_2012)
 percentages 
-#        cover percent_1984   percent_1996   percent_2004   percent_2012
-#1 Forest         92.3           86.3           90.1           86.1
-#2   Mine          7.7           13.7            9.9           13.9
+#    cover        percent_1984   percent_1996   percent_2004   percent_2012
+#1   Forest         92.3           86.3           90.1           86.1
+#2   Mine            7.7           13.7            9.9           13.9
 
 #generiamo i grafici con ggplot, la sintassi è particolare 
 ggplot(percentages, aes(x=cover, y=percent_1984, fill=cover)) + geom_bar(stat="identity", color="white")
