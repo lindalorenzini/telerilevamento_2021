@@ -260,7 +260,6 @@ library(raster)
 # setwd("/Users/name/Desktop/lab/greenland") # Mac 
 # setwd("~/lab/greenland") # Linux
 setwd("C:/lab/greenland") # Windows
-
 install.packages("rasterVis") # attenzione alla maiuscola e virgolette perché usciamo da R
 
 #la funzione raster serve a creare un oggetto con un layer raster, mi permette di caricare singoli dati invece che pacchetti di dati come fa la funzione brick
@@ -270,8 +269,8 @@ lst_2005 <- raster("lst_2005.tif")
 plot(lst_2005) 
 lst_2010 <- raster("lst_2010.tif")
 lst_2015 <- raster("lst_2015.tif")
-#esercizio multiframe con le quattro immagini
 
+#esercizio multiframe con le quattro immagini
 par(mfrow=c(2,2))
 plot(lst_2000)
 plot(lst_2005)
@@ -286,8 +285,10 @@ rlist
 #applico la funzione raster sulla lista appena creata
 import <- lapply(rlist,raster)
 import
-
+#ora possiamo creare un unico pacchetto di file con tutti quelli importati, lo facciamo con la funzione stack
+#stack function: abbiamo una lista di file raster e li mettiamo tutti insieme
 TGr <- stack(import)
+# a questo punto posso plottare le immagini tutte insieme inserendo TGr come argomento del plot
 plot(TGr)
 
 library(raster)
@@ -397,14 +398,25 @@ setwd("C:/lab/") # Windows
 #immagine: p224r63_2011_masked.grd
 
 p224r63_2011<- brick(" p224r63_2011_masked.grd")
-plot(p224r63_2011)
 p224r63_2011
+#class      : RasterBrick 
+#dimensions : 1499, 2967, 4447533, 7  (nrow, ncol, ncell, nlayers)
+#resolution : 30, 30  (x, y)
+#extent     : 579765, 668775, -522705, -477735  (xmin, xmax, ymin, ymax)
+#crs        : +proj=utm +zone=22 +datum=WGS84 +units=m +no_defs 
+#source     : C:/lab/p224r63_2011_masked.grd 
+#names      :       B1_sre,       B2_sre,       B3_sre,       B4_sre,       B5_sre,        B6_bt,       B7_sre 
+#min values : 0.000000e+00, 0.000000e+00, 0.000000e+00, 1.196277e-02, 4.116526e-03, 2.951000e+02, 0.000000e+00 
+#max values :    0.1249041,    0.2563655,    0.2591587,    0.5592193,    0.4894984,  305.2000000,    0.3692634 
 
+plot(p224r63_2011)
+#verranno visualizzate tutte le bande da B1 a  B7
 #adesso plottiamo i valori delle varie bande 
 plot(p224r63_2011$B1_sre, p224r63_2011$B2_sre, col="red", pch=19, cex=2)
 
 # funzione pairs: mette in correlazione a due a due tutte le variabili di un dato dataset
 pairs(p224r63_2011)
+#varranno visualizzate anche gli indici di correlazione dove più le bande sono correlate più le dimensioni dei caratteri è maggiore
 
 #analisi multivariata: PCA 
 #richiamo le due librerie utilizzate e la cartella di riferimento
@@ -430,11 +442,30 @@ p224r63_2011res_pca <- rasterPCA(p224r63_2011res) #non contiene solo un'immagine
 
 #funzione summary: ci da un sommario del nostro oggetto
 summary(p224r63_2011res_pca$model)
-plot(p224r63_2011res_pca $ map)
+#Importance of components:
+#                          Comp.1      Comp.2       Comp.3       Comp.4
+#Standard deviation     1.2050671 0.046154880 0.0151509526 4.575220e-03
+#Proportion of Variance 0.9983595 0.001464535 0.0001578136 1.439092e-05
+#Cumulative Proportion  0.9983595 0.999824022 0.9999818357 9.999962e-01
+#                             Comp.5       Comp.6       Comp.7
+#Standard deviation     1.841357e-03 1.233375e-03 7.595368e-04
+#Proportion of Variance 2.330990e-06 1.045814e-06 3.966086e-07
+#Cumulative Proportion  9.999986e-01 9.999996e-01 1.000000e+00
 
+#vediamo che la prima componente da sola spiega il 99% della varianza
+
+plot(p224r63_2011res_pca $ map)
+#con plot, prendo l'immagine modello la unisco alla mappa
 p224r63_2011res_pca
+#pulisco la finestra grafica con dev.off()
 dev.off()
+# ora plotto l'immagine in RGB 
 plotRGB(p224r63_2011res_pca $ map, r=1, g=2, b=3, stretch = "lin") #immagine risultante dall'analisi delle componenti principali
+# per ottenere un'immagine più complessa posso utilizzare la funzione str che sta per structure
+str(p224r63_2011res_pca)
+#Analisi PCA: genera delle nuove componenti che diminuiscono la correlazione iniziale e, con un numero minore di componenti, possiamo spiegare tutta l'immagine togliendo la correlazione.
+#E' importante fare la PCA per ridurre la correlazione tra le variabili quando, per esempio, si fa un'analisi con variabili molto correlate tra di loro a cui non è consigliato applicare un modello lineare.
+#In generale si applica l'analisi delle componenti principali se si ha un set di dati con molte variabili 
 
 #------------------------------------
 
@@ -453,10 +484,12 @@ so <- brick("Solar_Orbiter_s_first_views_of_the_Sun_pillars.jpg")
 so
 #visualizzazione l'immagine in RGB
 plotRGB(so, 1, 2, 3, stretch="lin")
+#livello energetico molto alto di colore chiaro, livello energetico basso di colore scuro e livello energetico intermedio con colori intermedi
 
 #Unsupervised Classification: funzione che dentro RStoolbox opera la classificazione non supervisionata
+#Capisce come i pixel si comportano in uno spazio multispettrale, creando alcune classi utilizzando dei pixel già conosciuti come campione (training set).
 soc <- unsuperClass(so, nClasses=3)
-#faccio un plott della nostra immagine classificata e la mappa, per legare immagine e mappa utilizzo il simbolo del dollaro
+#faccio un plot della nostra immagine classificata e la mappa, per legare immagine e mappa utilizzo il simbolo del dollaro
 plot(soc$map)
 #funzione set.seed() serve per avere una classificazione sempre uguale 
 
@@ -546,7 +579,17 @@ plotRGB(defor1, r=1, g=2, b=3, stretch="lin")
 plotRGB(defor2, r=1, g=2, b=3, stretch="lin")
 #andiamo ora a calcolare gli indici di vegetazione per le due immagini
 defor1
-#per ogni pixel prendiamo il valore nella banda red e lo sottriamo allo stesso pixel nella banda NIR
+#class      : RasterBrick 
+#dimensions : 478, 714, 341292, 3  (nrow, ncol, ncell, nlayers)
+#resolution : 1, 1  (x, y)
+#extent     : 0, 714, 0, 478  (xmin, xmax, ymin, ymax)
+#crs        : NA 
+#source     : C:/lab/defor1.jpg 
+#names      : defor1.1, defor1.2, defor1.3 
+#min values :        0,        0,        0 
+#max values :      255,      255,      255 
+
+#poichè la vegetazione ha riflettanza maggiore nella banda NIR per calcolare i vegetation indeces per ogni pixel prendiamo il valore nella banda red e lo sottriamo allo stesso pixel nella banda NIR
 #dvi=difference vegetation index
 dvi1 <- defor1$defor1.1 - defor1$defor1.2
 plot(dvi1)
@@ -554,13 +597,25 @@ dev.off()
 #cambio la palette di colori con colorRampPalette
 cl <- colorRampPalette(c('darkblue','yellow','red','black'))(100) # specifying a color scheme
 plot(dvi1, col=cl, main="DVI at time 1") #main serve per dare un titolo al plot
+
 #andiamo a fare la stessa procedura per dvi2
 defor2
+#class      : RasterBrick 
+#dimensions : 478, 717, 342726, 3  (nrow, ncol, ncell, nlayers)#
+#resolution : 1, 1  (x, y)
+#extent     : 0, 717, 0, 478  (xmin, xmax, ymin, ymax)
+#crs        : NA 
+#source     : C:/lab/defor2.jpg 
+#names      : defor2.1, defor2.2, defor2.3 
+#min values :        0,        0,        0 
+#max values :      255,      255,      255 
+
 dvi2 <- defor2$defor2.1 - defor2$defor2.2
 plot(dvi2)
 dev.off()
 cl <- colorRampPalette(c('darkblue','yellow','red','black'))(100)
 plot(dvi2, col=cl, main="DVI at time 2")
+
 #plottiamo le due immagini insieme con la funzione par
 par(mfrow=c(2,1))
 plot(dvi1, col=cl, main="DVI at time 1")
@@ -605,7 +660,7 @@ install.packages("rasterdiv") #for worldwide NDVI
 library(rasterdiv)
 plot(copNDVI)
 #ora voglio togliere dall'immagine tutta la parte che riguarda l'acqua
-#utilizzo la funzione cbiind per cambiare i valori dei pixel che mi interessano
+#utilizzo la funzione cbiind per cambiare i valori dei pixel che mi interessano: possiamo eliminare i pixel con cbind e i valori che non ci interessano (acqua) vengono riclassificati con reclassify
 #pixels con valori 253,254,255 (acqua) devono essere settati come NA
 copNDVI <- reclassify(copNDVI, cbind(253:255, NA))
 plot(copNDVI)
@@ -658,11 +713,26 @@ defor1 <- brick("defor1.jpg")
 defor2 <- brick("defor2.jpg")
 #facciamo un ggplot in RGB
 ggRGB(defor1, r=1, g=2, b=3, stretch="lin")
+ggRGB(defor2, r=1, g=2, b=3, stretch="lin")
+# partendo da tre bande dell'immagine satellitare, possiamo unirle per creare un immagine a banda singola
 #https://earthobservatory.nasa.gov/images/35891/deforestation-in-mato-grosso-brazil
+# con gridExtra possiamo utulizzare ggplot per dati raster e utlizziamo la funzione grid.Arrange e mette insieme i pezzi in un grafico, denominiamo i due plot e li mettiamo insieme
+p1 <- ggRGB(defor1, r=1, g=2, b=3, stretch="lin")
+p2 <- ggRGB(defor2, r=1, g=2, b=3, stretch="lin")
+grid.arrange(p1, p2, nrow=2) #così possiamo arrangiare ogni tipo di griglia
 
 #unsupervised classification
 d1c <- unsuperClass(defor1, nClasses=2)
 d1c
+# $map
+# class      : RasterLayer 
+# dimensions : 478, 714, 341292  (nrow, ncol, ncell)
+# resolution : 1, 1  (x, y)
+# extent     : 0, 714, 0, 478  (xmin, xmax, ymin, ymax)
+# crs        : NA 
+# source     : memory
+# names      : layer 
+# values     : 1, 2  (min, max) 
 plot(d1c$map)
 #classe 2 foresta amzzonica e classe 1 con campi coltivati e fiume
 #set.seed() permetterebbe di standardizzare i risultati
@@ -674,6 +744,7 @@ plot(d2c$map)
 #proviamo a fare classificazione con 3 classi per vedere se riusciamo a identificare il fiumr 
 d2c3<- unsuperClass(defor2, nClasses=3)
 plot(d2c3$map)
+#calcoliamo ora la frequenza della mappa generata, dei pixel di una certa classe, quante volte questi si presentano nella zona foresta e nella zona agricola
 freq(d1c$map) #ci permette di vedere quanti pixel formano le varie classi
 # value  count
 #[1,]     1  34006
@@ -698,17 +769,19 @@ prop2
 #[2,] 5.835565e-06 0.4768095, campi
 
 #ora creiamo un dataset
+#inseriamo i fattori che sono variabili categoriche, nel nostro caso foresta e zone agricole, inseriamo le percentuali di entrambe le classi, otterremo una tabella a 3 colonne
 cover<-c("Forest", "Agriculture")
 percent_1992<-c(90.03, 09.96)
 percent_2006<-c(52.31, 47.68)
 #funzione date.frame() mi permette di creare una tabella/dataset
+
 percentages<-data.frame(cover,percent_1992,percent_2006)
 percentages
 #ora facciamo un grafico utilizzando ggplot
 p1<-ggplot(percentages, aes(x=cover, y=percent_1992, color=cover)) + geom_bar(stat="identity", fill="white")
 p2<-ggplot(percentages, aes(x=cover, y=percent_2006, color=cover)) + geom_bar(stat="identity", fill="white")
 
-#grid.arrange()  funzione che permette di aggregare più grafici nella stessa pagins
+#grid.arrange()  funzione che permette di aggregare più grafici nella stessa pagina
 grid.arrange(p1, p2, nrow=1)
 
 #in questo modo abbiamo analizzato un'immagine satellitare e abbiamo trasformato l'immagine in dati utilizzabili per analizzare la copertura 
@@ -737,7 +810,7 @@ sent<- brick("sentinel.png")
 #NIR 1, RED 2,  GREEN 3
 # r=1, g=2, b=3
 plotRGB(sent,stretch="lin") #siccome i colori sono impostati di default non serve impostare i colori
-# corrisponderebbe acplotRGB(sent,r=1, g=2, b=3,stretch="lin")
+# corrisponderebbe a plotRGB(sent,r=1, g=2, b=3,stretch="lin")
 #cambiamo i colori 
 plotRGB(sent, r=2, g=1, b=3, stretch="lin") 
 
@@ -755,6 +828,7 @@ cl <- colorRampPalette(c('black','white','red','magenta','green'))(100) #
 plot(ndvi,col=cl)
 
 #ora vado a calcolare la variabilità della singola immagine 
+#funzione focal: calcola il tutto tramite la moving window
 #calcolo della deviazione standard
 ndvisd3 <- focal(ndvi, w=matrix(1/9, nrow=3, ncol=3), fun=sd)
 plot(ndvisd3)
@@ -769,11 +843,13 @@ plot(ndvimean3)
 clmean<- colorRampPalette(c('blue','green','pink','magenta','orange','brown','red','yellow'))(100) 
 plot(ndvisd3, col=clmean)
 
+#cambiamo la grandezza della moving window cambiando il numero di pixel da selezionare
 ndvisd5 <- focal(ndvi, w=matrix(1/25, nrow=5, ncol=5), fun=sd)
 clsd <- colorRampPalette(c('blue','green','pink','magenta','orange','brown','red','yellow'))(100)  
 plot(ndvisd5, col=clsd)
 
 #ora prenciamo il nostro sistema multibanda e facciamo una pca sulla prima variabile
+# PCA: altro modo per compattare i dati
 sentpca<- rasterPCA(sent)
 plot(sentpca$map)
 
