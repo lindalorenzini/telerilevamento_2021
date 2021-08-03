@@ -211,6 +211,13 @@ m12c
 #values     : 1, 2  (min, max)
 plot(m12c$map)
 
+pdf("unsuperclass_2x2.pdf")
+par(mfrow=c(2,2))
+plot(m84c$map)
+plot(m96c$map)
+plot(m04c$map)
+plot(m12c$map)
+
 freq(m84c$map)
 # value  count
 #[1,]     1  26623 miniera
