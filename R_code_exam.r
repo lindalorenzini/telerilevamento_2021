@@ -64,15 +64,11 @@ mining12
 #min values :                0,                0,                0 
 #max values :              255,              255,              255 
 
-#  dalle info sulle immagini cedo che ho dei raster brick in 3 bande che sono evidenziate dalla voce "names"
+#  dalle info sulle immagini vedo che ho dei raster brick in 3 bande che sono evidenziate dalla voce "names"
 # bande mining84: banda1=hobet_19840917.1 , banda2= hobet_19840917.2 , banda3=  hobet_19840917.3.
 # bande mining96: banda1= hobet_19961004.1, banda2= hobet_19961004.2, banda3= hobet_19961004.3
 # bande mining04: banda1= hobet_20040706.1 , banda2=hobet_20040706.2 , banda3= hobet_20040706.3
 # bande mining12: banda1= hobet_20120920.1, banda2= hobet_20120920.2 , banda3= hobet_20120920.3
-
-#voglio, per esempio, plottare solo una banda di una determinata immagine faccio un plot di un'immagine legata con il $ al nome della banda di interesse
-#esempio plot in una sola banda:
-plot(mining84$hobet_19840917.1)
 
 #per vedere le immagini con i colori della banda del visibile le vado a plottare in RGB
 plotRGB(mining84, r=3,g=2,b=1, stretch="Lin")
