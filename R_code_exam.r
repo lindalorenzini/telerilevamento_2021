@@ -1,5 +1,7 @@
 # Mountain top mining in West Virginia
 
+#immagini prese da https://earthobservatory.nasa.gov/world-of-change/Hobet
+
 #richiamo le librerie precedentemente installate 
 library(raster)
 library(rasterVis)
