@@ -71,7 +71,7 @@ mining12
 # bande mining12: banda1= hobet_20120920.1, banda2= hobet_20120920.2 , banda3= hobet_20120920.3
 
 #per vedere le immagini con i colori della banda del visibile le vado a plottare in RGB
-# R= red, G= green, B= blue
+# R = red, G = green, B = blue
 # associo ognuno dei 3 colori alle diverse bande della mia immagine (r=1, g=2, b=3) e scelgo il tipo di stretch (stretch= "Lin")
 plotRGB(mining84, r=1,g=2,b=3, stretch="Lin")
 plotRGB(mining96, r=1,g=2,b=3, stretch="Lin")
