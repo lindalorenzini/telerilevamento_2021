@@ -136,10 +136,12 @@ mining96<-brick("hobet_19961004.jpg")
 mining04<-brick("hobet_20040706.jpg")
 mining12<-brick("hobet_20120920.jpg")
 
+#plotto le 4 immagini con un gg plot in RGB
 picture1 <- ggRGB(mining84, r=1, g=2, b=3, stretch="lin")
 picture2 <- ggRGB(mining96, r=1, g=2, b=3, stretch="lin")
 picture3 <- ggRGB(mining04, r=1, g=2, b=3, stretch="lin")
 picture4 <- ggRGB(mining12, r=1, g=2, b=3, stretch="lin")
+# utilizzo la funzione grid arrange per avere le 4 immagini insieme 
 grid.arrange(picture1, picture2, picture3, picture4, nrow=2)
 
 # funzione set.seed(): fissa i valori da attribuire ai pixel  
@@ -147,6 +149,8 @@ set.seed(1)
 # funzione rnorm(): normalizza i valori dei pixel fissando la classe scelta
 rnorm(1)
 
+# ora procedo a fare la unsupervised classification per le 4 immagini tramite la funzione unsuperClass()
+# unsuperClass è una funzione che mi permette di discriminare i pixel della mia immagine dividendoli in 2 o più classi in base alla riflettanza
 m84c <- unsuperClass(mining84, nClasses=2)
 m84c
 #unsuperClass results
@@ -226,13 +230,18 @@ plot(m04c$map)
 plot(m12c$map)
 dev.off()
 
+#calcoliamo ora la frequenza della mappa generata, dei pixel di una certa classe, quante volte questi si presentano nella zona foresta e nella zona miniera
 freq(m84c$map)
 # value  count
 #[1,]     1  26623 miniera
 #[2,]     2 318977 foresta
+
+#somma dei risultati
 sum1 <- 26623 + 318977
 sum1
 #sum1= [1] 345600
+
+#proporzione che mi permette di capire la percentuale di pixel della miniera e quelli della foresta
 prop1 <- freq(m84c$map) / sum1
 prop1
 #        value      count
@@ -241,6 +250,7 @@ prop1
 
 # 1984-> 92,3% foresta, 7,7% miniera
 
+#ripeto il procedimento per le altre 3 immagini
 freq(m96c$map)
 #  value  count
 #[1,]     1  47473 miniera
@@ -317,16 +327,19 @@ graf4 <- ggplot(percentages, aes(x=cover, y=percent_2012, fill=cover)) + geom_ba
 #utilizziamo grid.arrange per unire i ggplot ottenuti, occorre avere la library gridExtra, otteniamo così i 4 grafici delle 4 annate per analizzare i cambiamenti percentuali nel tempo
 grid.arrange(graf1, graf2, graf3, graf4, nrow=1)
 
+# salvo la prima serie di grafici 
 pdf("graficiggplot_vers1.pdf")
 grid.arrange(graf1, graf2, graf3, graf4, nrow=1)
 dev.off()
 
+#creo una seconda serie di grafici in cui vengono modificate solo cose estetiche come il colore della legenda e il titolo
 graf5 <- ggplot(percentages, aes(x=cover, y=percent_1984, fill=cover))  + ggtitle("Cover percentage 1984") + geom_bar(stat="identity", color= "black") + scale_fill_manual(values=c("seagreen", "wheat"))
 graf6 <- ggplot(percentages, aes(x=cover, y=percent_1996, fill=cover))+ ggtitle("Cover percentage 1996") + geom_bar(stat="identity", color= "black") + scale_fill_manual(values=c("seagreen", "wheat"))
 graf7 <- ggplot(percentages, aes(x=cover, y=percent_2004, fill=cover)) + ggtitle("Cover percentage in 2004") + geom_bar(stat="identity", color= "black") + scale_fill_manual(values=c("seagreen", "wheat"))
 graf8 <- ggplot(percentages, aes(x=cover, y=percent_2012, fill=cover)) + ggtitle("Cover percentage in 2012") + geom_bar(stat="identity", color= "black") + scale_fill_manual(values=c("seagreen", "wheat"))
 grid.arrange(graf5, graf6, graf7, graf8, nrow=1)
 
+#salvo la seconda serie di dati
 pdf("graficiggplot_vers2.pdf")
 grid.arrange(graf5, graf6, graf7, graf8, nrow=1)
 dev.off()
@@ -334,6 +347,4 @@ dev.off()
 
 
 
-ggplot(increasedpercentages, aes(x=MSHcover, y=coverpercentagein1987, fill=MSHcover)) + ggtitle("Cover percentage on the volcanic slopes of Mount Saint Helens in 1987") + theme(plot.title=element_text(face="bold")) + scale_x_discrete(limits = idealgraphicsuccession) + scale_y_continuous(limits = c(min(0),max(71))) + geom_bar(stat="identity") + theme(legend.position="bottom") + scale_fill_manual(values=c("gold", "burlywood3", "darkolivegreen4"))
-ggplot(increasedpercentages, aes(x=MSHcover, y=coverpercentagein1996, fill=MSHcover)) + ggtitle("Cover percentage on the volcanic slopes of Mount Saint Helens in 1996") + theme(plot.title=element_text(face="bold")) + scale_x_discrete(limits = idealgraphicsuccession) + scale_y_continuous(limits = c(min(0),max(71))) + geom_bar(stat="identity") + theme(legend.position="bottom") + scale_fill_manual(values=c("gold", "burlywood3", "darkolivegreen4"))
 
