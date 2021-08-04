@@ -164,6 +164,7 @@ plot(m84c$map)
 
 set.seed(1)
 rnorm(1)
+
 m96c <- unsuperClass(mining96, nClasses=2)
 m96c
 #unsuperClass results
@@ -182,6 +183,7 @@ plot(m96c$map)
 
 set.seed(1)
 rnorm(1)
+
 m04c <- unsuperClass(mining04, nClasses=2)
 m04c
 #unsuperClass results
@@ -200,6 +202,7 @@ plot(m04c$map)
 
 set.seed(1)
 rnorm(1)
+
 m12c <- unsuperClass(mining12, nClasses=2)
 m12c
 #unsuperClass results
