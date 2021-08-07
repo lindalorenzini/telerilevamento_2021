@@ -378,6 +378,7 @@ install.packages("knitr")
 
 #prima cosa settiamo la working directory
 setwd("C:/lab/") # Windows
+#inizialmente faccio copia e incolla del codice precedentemente fatto con i dati della Groellandia su blocco note di windows, e lo salvo come R_code_greenland.r" nella cartella lab
 #knitr è un pacchetto utile per creare file con diversi pdf all'interno
 # knitr prende un codice all'esterno di r, lo porta all'interno di r dove genera un report nella stessa cartella del codice
 library(knitr)
